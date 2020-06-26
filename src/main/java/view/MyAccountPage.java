@@ -64,7 +64,7 @@ public class MyAccountPage extends JFrame{
             usernameField1.setText("");
         }
     }
-    
+      
     private void changeEmail(){
         String newEmail = emailField2.getText();
         if(UserController.getInstance().findByEmail(newEmail).isPresent()){
