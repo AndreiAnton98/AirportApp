@@ -1,9 +1,12 @@
 package view;
 
+import controller.AuditController;
 import controller.UserController;
+import model.Audit;
 import model.User;
 
 import javax.swing.*;
+import java.time.LocalDateTime;
 
 public class RegisterPage extends JFrame{
     private JPanel mainPanel;
@@ -47,7 +50,9 @@ public class RegisterPage extends JFrame{
             JOptionPane.showMessageDialog(null, "Email format wrong");
             resetFields();
         }else{
-            UserController.getInstance().addUser(new User(0, username, password, email));
+            User user = new User(0, username, password, email);
+            UserController.getInstance().addUser(user);
+
             new LoginPage();
             dispose();
         }

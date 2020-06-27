@@ -1,11 +1,14 @@
 package dao;
 
+import controller.AuditController;
+import model.Audit;
 import model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class UserDao {

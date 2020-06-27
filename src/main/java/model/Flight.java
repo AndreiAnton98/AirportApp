@@ -8,12 +8,12 @@ public class Flight {
     private int user_id;
     private String departure;
     private String arrival;
-    private LocalTime departure_time;
-    private LocalTime arrival_time;
-    private List<String> days;
+    private String departure_time;
+    private String arrival_time;
+    private String days;
     private int price;
 
-    public Flight(int id, int user_id, String departure, String arrival, LocalTime departure_time, LocalTime arrival_time, List<String> days, int price) {
+    public Flight(int id, int user_id, String departure, String arrival, String departure_time, String arrival_time, String days, int price) {
         this.id = id;
         this.user_id = user_id;
         this.departure = departure;
@@ -56,27 +56,27 @@ public class Flight {
         this.arrival = arrival;
     }
 
-    public LocalTime getDeparture_time() {
+    public String getDeparture_time() {
         return departure_time;
     }
 
-    public void setDeparture_time(LocalTime departure_time) {
+    public void setDeparture_time(String departure_time) {
         this.departure_time = departure_time;
     }
 
-    public LocalTime getArrival_time() {
+    public String getArrival_time() {
         return arrival_time;
     }
 
-    public void setArrival_time(LocalTime arrival_time) {
+    public void setArrival_time(String arrival_time) {
         this.arrival_time = arrival_time;
     }
 
-    public List<String> getDays() {
+    public String getDays() {
         return days;
     }
 
-    public void setDays(List<String> days) {
+    public void setDays(String days) {
         this.days = days;
     }
 

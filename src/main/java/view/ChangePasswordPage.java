@@ -1,9 +1,12 @@
 package view;
 
+import controller.AuditController;
 import controller.UserController;
+import model.Audit;
 import model.User;
 
 import javax.swing.*;
+import java.time.LocalDateTime;
 
 public class ChangePasswordPage extends JFrame{
     private JPanel mainPanel;
@@ -42,6 +45,7 @@ public class ChangePasswordPage extends JFrame{
         }else{
             UserController.getInstance().changePassword(this.user, password1);
             JOptionPane.showMessageDialog(null, "Password changed");
+            AuditController.getInstance().addAudit(new Audit(1, user.getId(), "Password change", LocalDateTime.now().toString()),user);
             new MyAccountPage(this.user);
             dispose();
         }

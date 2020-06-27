@@ -5,14 +5,19 @@ import java.time.LocalDateTime;
 public class Audit {
     private int id;
     private int user_id;
-    private Actions action;
-    private LocalDateTime timestamp;
+    private String action;
+    private String timestamp;
 
-    public Audit(int id, int user_id, Actions action, LocalDateTime timestamp) {
+    public Audit(int id, int user_id, String action, String timestamp) {
         this.id = id;
         this.user_id = user_id;
         this.action = action;
         this.timestamp = timestamp;
+    }
+
+    @Override
+    public String toString() {
+        return getAction() + " pe " + getTimestamp();
     }
 
     public int getId() {
@@ -31,19 +36,19 @@ public class Audit {
         this.user_id = user_id;
     }
 
-    public Actions getAction() {
+    public String getAction() {
         return action;
     }
 
-    public void setAction(Actions action) {
+    public void setAction(String action) {
         this.action = action;
     }
 
-    public LocalDateTime getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 }

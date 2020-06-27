@@ -1,37 +1,30 @@
 package view;
 
 import controller.AuditController;
-import controller.FlightController;
 import model.Audit;
-import model.Flight;
 import model.User;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class MainPage extends JFrame{
+public class UserHistoryPage extends JFrame{
+    private JPanel mainPanel;
     private JButton homeButton;
-    private JButton accountButton;
+    private JButton myAccountButton;
+    private JButton userHistoryButton;
     private JButton logOutButton;
     private JButton backButton;
-    private JTable table1;
-    private JButton addFlightButton;
-    private JPanel mainPanel;
-    private JPanel panelTable;
-    private JButton userHistoryButton;
+    private JList list1;
     private User user;
-    private List<Flight> flights;
-    private DefaultTableModel model;
+    private DefaultListModel<Audit> model;
 
-    public MainPage(User user){
+
+    public UserHistoryPage(User user){
         this.user = user;
-        this.flights = FlightController.getInstance().getFlights(user);
-        model = new DefaultTableModel();
-        setTable();
-        addFlightButton.addActionListener(actionEvent -> new AddFlightPage(user));
+        model = new DefaultListModel<>();
+        list1.setModel(model);
+        afisAudit();
         logOutButton.addActionListener(actionEvent -> {
             new StartPage();
             dispose();
@@ -41,9 +34,8 @@ public class MainPage extends JFrame{
             new MainPage(this.user);
             dispose();
             AuditController.getInstance().addAudit(new Audit(1, user.getId(), "Main Page", LocalDateTime.now().toString()),user);
-
         });
-        accountButton.addActionListener(actionEvent -> {
+        myAccountButton.addActionListener(actionEvent -> {
             new MyAccountPage(this.user);
             dispose();
             AuditController.getInstance().addAudit(new Audit(1, user.getId(), "Account Page", LocalDateTime.now().toString()),user);
@@ -60,16 +52,9 @@ public class MainPage extends JFrame{
         setVisible(true);
     }
 
-    private void setTable() {
-        model.setColumnIdentifiers(new Object[]{"From", "To", "Departure Time", "Arrival Time", "Days", "Price"});
-        table1.setModel(model);
-        table1.setRowHeight(40);
-
-
-        for(Flight flight : flights){
-            model.addRow(new Object[]{flight.getDeparture(), flight.getArrival(), flight.getDeparture_time(), flight.getArrival_time(), flight.getDays(), flight.getPrice()});
-        }
+    private void afisAudit(){
+        List<Audit> list = AuditController.getInstance().getAudit(user);
+        model.clear();
+        list.forEach(a -> model.addElement(a));
     }
-
-
 }

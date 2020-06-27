@@ -1,9 +1,12 @@
 package view;
 
+import controller.AuditController;
 import controller.UserController;
+import model.Audit;
 import model.User;
 
 import javax.swing.*;
+import java.time.LocalDateTime;
 
 public class MyAccountPage extends JFrame{
     User user;
@@ -19,6 +22,7 @@ public class MyAccountPage extends JFrame{
     private JTextField emailField2;
     private JButton changeUsernameButton;
     private JButton changeEmailButton;
+    private JButton userHistoryButton;
 
     public MyAccountPage(User user){
         this.user = user;
@@ -27,14 +31,22 @@ public class MyAccountPage extends JFrame{
         logOutButton.addActionListener(actionEvent -> {
             new StartPage();
             dispose();
+            AuditController.getInstance().addAudit(new Audit(1, user.getId(), "Logout", LocalDateTime.now().toString()),user);
         });
         homeButton.addActionListener(actionEvent -> {
             new MainPage(this.user);
             dispose();
+            AuditController.getInstance().addAudit(new Audit(1, user.getId(), "Main Page", LocalDateTime.now().toString()),user);
         });
         accountButton.addActionListener(actionEvent -> {
             new MyAccountPage(this.user);
             dispose();
+            AuditController.getInstance().addAudit(new Audit(1, user.getId(), "Account Page", LocalDateTime.now().toString()),user);
+        });
+        userHistoryButton.addActionListener(actionEvent -> {
+            new UserHistoryPage(this.user);
+            dispose();
+            AuditController.getInstance().addAudit(new Audit(1, user.getId(), "History Page", LocalDateTime.now().toString()),user);
         });
         changeUsernameButton.addActionListener(actionEvent -> changeUsername());
         changeEmailButton.addActionListener(actionEvent -> changeEmail());
@@ -48,7 +60,7 @@ public class MyAccountPage extends JFrame{
         setLocationRelativeTo(null);
         setVisible(true);
     }
-    // todo nu se schimba in timp real ce afiseaza
+
     private void changeUsername(){
         String newUsername = usernameField1.getText();
         if(newUsername.length() == 0){
@@ -60,8 +72,11 @@ public class MyAccountPage extends JFrame{
         }else{
             UserController.getInstance().changeUsername(this.user, newUsername);
             JOptionPane.showMessageDialog(null, "Username changed");
-            usernameText.setText(this.user.getUsername());
+            AuditController.getInstance().addAudit(new Audit(1, user.getId(), "Username change", LocalDateTime.now().toString()),user);
+            setVisible(false);
+            usernameText.setText(newUsername);
             usernameField1.setText("");
+            setVisible(true);
         }
     }
       
@@ -75,9 +90,13 @@ public class MyAccountPage extends JFrame{
             emailField2.setText("");
         }else{
             UserController.getInstance().changeEmail(this.user, newEmail);
+
             JOptionPane.showMessageDialog(null, "Email changed");
-            emailText.setText(this.user.getEmail());
+            AuditController.getInstance().addAudit(new Audit(1, user.getId(), "Email change", LocalDateTime.now().toString()),user);
+            setVisible(false);
+            emailText.setText(newEmail);
             emailField2.setText("");
+            setVisible(true);
         }
     }
 }

@@ -1,9 +1,12 @@
 package view;
 
+import controller.AuditController;
 import controller.UserController;
+import model.Audit;
 import model.User;
 
 import javax.swing.*;
+import java.time.LocalDateTime;
 
 public class LoginPage extends JFrame{
     private JPanel mainPanel;
@@ -28,12 +31,14 @@ public class LoginPage extends JFrame{
             if (user.getPassword().equals(password)){
                 new MainPage(user);
                 dispose();
+                AuditController.getInstance().addAudit(new Audit(1, user.getId(), "Login", LocalDateTime.now().toString()),user);
             }
         }else if(UserController.getInstance().findByEmail(username).isPresent()){
             User user = UserController.getInstance().findByEmail(username).get();
             if (user.getPassword().equals(password)){
                 new MainPage(user);
                 dispose();
+                AuditController.getInstance().addAudit(new Audit(1, user.getId(), "Login", LocalDateTime.now().toString()),user);
             }
         }else{
             JOptionPane.showMessageDialog(null, "Wrong");

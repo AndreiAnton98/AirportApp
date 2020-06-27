@@ -1,9 +1,11 @@
 package controller;
 
 import dao.UserDao;
+import model.Audit;
 import model.User;
 
 import java.sql.Connection;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class UserController {
@@ -24,6 +26,7 @@ public class UserController {
     
     public boolean addUser(User user){
         return userDao.create(user);
+
     }
 
     public Optional<User> findByUsername(String username){
